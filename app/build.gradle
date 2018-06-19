@@ -1,0 +1,48 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.sdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        applicationId "org.caojun.signman"
+        minSdkVersion 14
+        targetSdkVersion rootProject.ext.sdkVersion
+        versionCode 8
+        versionName "1.2.0"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "com.android.support:appcompat-v7:$androidsupport_version"
+    implementation "android.arch.persistence.room:runtime:$googleroom_version"
+    implementation "android.arch.lifecycle:extensions:$googleroom_version"
+    annotationProcessor "android.arch.lifecycle:compiler:$googleroom_version"
+    kapt "android.arch.persistence.room:compiler:$googleroom_version"
+    implementation 'se.emilsjolander:stickylistheaders:latest.release'
+    implementation 'com.luhuiguo:chinese-utils:latest.release'
+    implementation 'com.github.zhaokaiqiang.klog:library:latest.release'
+    implementation 'org.jetbrains.anko:anko-common:latest.release'
+    implementation project(':UtilsLibrary')
+    implementation project(':WidgetLibrary')
+}
