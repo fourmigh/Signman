@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "org.caojun.signman"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion rootProject.ext.sdkVersion
         versionCode 8
         versionName "1.2.0"
