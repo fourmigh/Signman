@@ -11,6 +11,8 @@
     <string name="reinstall">Reinstall</string>
     <string name="remove">Remove</string>
     <string name="animation">Animation</string>
-    <string name="settings_anim_key">settings_anim_key</string>
+    <string name="settings_anim_key" translatable="false">settings_anim_key</string>
     <string name="settings_anim">Random Animation</string>
+    <string name="cache">Cache</string>
+    <string name="clear_cache">Clear Cache(%s)</string>
 </resources>

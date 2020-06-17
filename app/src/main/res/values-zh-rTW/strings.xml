@@ -13,4 +13,6 @@
     <string name="remove">移除</string>
     <string name="animation">動畫</string>
     <string name="settings_anim">隨機動畫效果</string>
+    <string name="cache">緩存</string>
+    <string name="clear_cache">清理緩存（%s）</string>
 </resources>

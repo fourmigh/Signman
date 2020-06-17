@@ -5,67 +5,63 @@ import android.support.v7.app.AppCompatActivity
 import org.caojun.signman.R
 import android.app.Activity
 import android.content.pm.ApplicationInfo
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import org.caojun.signman.Constant
-import org.caojun.signman.adapter.AppSelectAdapter
+import org.caojun.signman.adapter.CacheAdapter
 import org.caojun.signman.room.App
 import org.caojun.signman.room.AppDatabase
 import org.caojun.signman.utils.AppSortComparator
+import org.caojun.signman.utils.CacheUtils
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 import java.util.Collections
 
 /**
  * Created by CaoJun on 2017/8/31.
  */
-class AppsActivity : AppCompatActivity() {
+class CacheActivity : AppCompatActivity() {
 
     private val list: ArrayList<App> = ArrayList()
-    private var adapter:AppSelectAdapter? = null
-//    private var apps: ArrayList<App> = ArrayList()
+    private var adapter:CacheAdapter? = null
+    private var totalSize = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        apps = intent.getParcelableArrayListExtra("apps")
-
-        btnAppList.text = getString(android.R.string.ok)
+        btnAppList.text = getString(R.string.clear_cache, "0 KB")
 
         btnAppList.setOnClickListener {
-            saveSelectedApps()
+            clearCache()
         }
 
         list.clear()
 
         btnAnimation.visibility = View.GONE
+        tvTips.visibility = View.GONE
     }
 
-    private fun saveSelectedApps() {
+    private fun clearCache() {
         progressBar.visibility = View.VISIBLE
-        val apps = adapter?.getSelectedApps()
+        val apps = list
         doAsync {
-            for (app in apps!!) {
-                AppDatabase.getDatabase(baseContext).getAppDao().insert(app)
+            for (app in apps) {
+                val folder = CacheUtils.getFolder(app.packageName) ?: continue
+                CacheUtils.deleteDir(folder)
             }
-            uiThread {
-                setResult(Activity.RESULT_OK)
-                finish()
-            }
+            list.clear()
+            refreshData()
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun refreshData() {
         progressBar.visibility = View.VISIBLE
         doAsync {
             if (list.isEmpty()) {
 
                 val packages = packageManager.getInstalledPackages(0)
+                totalSize = 0.0
                 for (i in packages.indices) {
                     val packageInfo = packages[i]
                     if ((packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0) { //非系统应用
@@ -80,21 +76,32 @@ class AppsActivity : AppCompatActivity() {
 //                        app.setVersionName(packageInfo.versionName)//获取应用版本名
 //                        app.setVersionCode(packageInfo.versionCode)//获取应用版本号
                         app.icon = packageInfo.applicationInfo.loadIcon(packageManager)//获取应用图标
+
+                        app.cache = CacheUtils.getFolderSize(app.packageName).toDouble()
                         list.add(app)
+
+                        totalSize += app.cache
                     }
                 }
 
                 Collections.sort(list, AppSortComparator())
 
-                for (app in list) {
-                    if (Constant.Apps.contains(app)) {
-                        app.isSelected = true
-                    }
-                }
+//                for (app in list) {
+//                    if (Constant.Apps.contains(app)) {
+//                        app.isSelected = true
+//                    }
+//                }
 
                 uiThread {
-                    adapter = AppSelectAdapter(baseContext, list)
+                    adapter = CacheAdapter(baseContext, list, object : CacheAdapter.Listener {
+                        override fun onCacheCleared(size: Double) {
+                            totalSize -= size
+                            btnAppList.text = getString(R.string.clear_cache, CacheUtils.getFormatSize(totalSize))
+                        }
+                    })
                     listView.adapter = adapter
+
+                    btnAppList.text = getString(R.string.clear_cache, CacheUtils.getFormatSize(totalSize))
                 }
 
             }
@@ -104,18 +111,9 @@ class AppsActivity : AppCompatActivity() {
             }
         }
     }
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.cache, menu)
-        return true
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_goto_cache_list -> {
-                startActivity<CacheActivity>()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+    override fun onResume() {
+        super.onResume()
+        refreshData()
     }
 }

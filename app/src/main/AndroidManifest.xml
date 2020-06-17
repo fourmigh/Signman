@@ -21,6 +21,7 @@
         <activity android:name=".activity.SettingsActivity"
             android:label="@string/animation"
             android:theme="@android:style/Theme.Holo.Light.Dialog" />
+        <activity android:name=".activity.CacheActivity"/>
     </application>
 
 </manifest>

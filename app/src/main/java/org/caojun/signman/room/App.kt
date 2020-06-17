@@ -32,6 +32,9 @@ class App : Parcelable {
     @Ignore
     var isSelected: Boolean = false
 
+    @Ignore
+    var cache: Double = 0.0
+
     fun addTime() {
         time.add(0, Date())
     }
