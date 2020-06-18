@@ -53,7 +53,10 @@ object CacheUtils {
     //Context.getExternalFilesDir() --> SDCard/Android/data/你的应用的包名/files/ 目录，一般放一些长时间保存的数据
     //Context.getExternalCacheDir() --> SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据
     @Throws(Exception::class)
-    fun getFolderSize(file: File): Long {
+    fun getFolderSize(file: File?): Long {
+        if (file == null) {
+            return 0L
+        }
         var size: Long = 0
         try {
             val fileList: Array<File> = file.listFiles()
@@ -83,19 +86,19 @@ object CacheUtils {
         }
         val megaByte = kiloByte / 1024
         if (megaByte < 1) {
-            val result1 = BigDecimal(java.lang.Double.toString(kiloByte))
+            val result1 = BigDecimal(kiloByte.toString())
             return result1.setScale(2, BigDecimal.ROUND_HALF_UP)
                     .toPlainString().toString() + " KB"
         }
         val gigaByte = megaByte / 1024
         if (gigaByte < 1) {
-            val result2 = BigDecimal(java.lang.Double.toString(megaByte))
+            val result2 = BigDecimal(megaByte.toString())
             return result2.setScale(2, BigDecimal.ROUND_HALF_UP)
                     .toPlainString().toString() + " MB"
         }
         val teraBytes = gigaByte / 1024
         if (teraBytes < 1) {
-            val result3 = BigDecimal(java.lang.Double.toString(gigaByte))
+            val result3 = BigDecimal(gigaByte.toString())
             return result3.setScale(2, BigDecimal.ROUND_HALF_UP)
                     .toPlainString().toString() + " GB"
         }

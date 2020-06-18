@@ -79,9 +79,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadApps() {
         doAsync {
-            val apps = AppDatabase.getDatabase(baseContext).getAppDao().queryAll()
+            val apps = try {
+                AppDatabase.getDatabase(baseContext).getAppDao().queryAll()
+            } catch (e: Exception) {
+                null
+            }
             uiThread {
-                if (!apps.isEmpty()) {
+                if (apps?.isNotEmpty() == true) {
                     Constant.Apps.clear()
                     Collections.sort(apps, AppSortComparator())
                     Constant.Apps.addAll(apps)
