@@ -10,9 +10,19 @@ import java.io.ByteArrayOutputStream
  * Created by CaoJun on 2017/9/5.
  */
 object DrawableUtils {
+    
+    private fun getBitmapFromDrawable(drawable: Drawable): Bitmap {
+        val bmp = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bmp)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+        return bmp
+    }
+    
     fun toByteArray(drawable: Drawable): ByteArray {
-        val bd = drawable as BitmapDrawable
-        val bitmap = bd.bitmap
+//        val bd = drawable as BitmapDrawable
+//        val bitmap = bd.bitmap
+        val bitmap = getBitmapFromDrawable(drawable)
         val os = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, os)
         return os.toByteArray()
