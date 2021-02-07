@@ -11,8 +11,8 @@ android {
         applicationId "org.caojun.signman"
         minSdkVersion 15
         targetSdkVersion rootProject.ext.sdkVersion
-        versionCode 9
-        versionName "1.3.0"
+        versionCode 10
+        versionName "1.4.0"
 
     }
 
