@@ -25,7 +25,7 @@ class App : Parcelable {
 
     var name: String? = null
 
-    var icon: Drawable? = null
+//    var icon: Drawable? = null
 
     var isSigned: Boolean = false
 
@@ -61,13 +61,13 @@ class App : Parcelable {
     override fun writeToParcel(dest: Parcel, flags: Int) {
         val dataConverter = DataConverter()
         val times = dataConverter.toString(time)
-        val icons = dataConverter.toByteArray(icon!!)
+//        val icons = dataConverter.toByteArray(icon!!)
 
         dest.writeString(packageName)
         dest.writeString(times)
         dest.writeString(name)
-        dest.writeInt(icons.size)
-        dest.writeByteArray(icons)
+//        dest.writeInt(icons.size)
+//        dest.writeByteArray(icons)
         dest.writeByte((if (isSigned) 1 else 0).toByte())
     }
 
@@ -81,14 +81,14 @@ class App : Parcelable {
         packageName = _in.readString()
         val times = _in.readString()
         name = _in.readString()
-        val size = _in.readInt()
-        val icons = ByteArray(size)
-        _in.readByteArray(icons)
+//        val size = _in.readInt()
+//        val icons = ByteArray(size)
+//        _in.readByteArray(icons)
         val signs = _in.readByte()
 
         val dataConverter = DataConverter()
         time = dataConverter.toArrayListDate(times)
-        icon = dataConverter.toDrawable(icons)
+//        icon = dataConverter.toDrawable(icons)
         isSigned = signs.compareTo(1) == 0
     }
 

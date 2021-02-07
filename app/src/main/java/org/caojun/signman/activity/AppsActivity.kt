@@ -79,7 +79,8 @@ class AppsActivity : AppCompatActivity() {
                         app.packageName = packageInfo.packageName //获取应用包名，可用于卸载和启动应用
 //                        app.setVersionName(packageInfo.versionName)//获取应用版本名
 //                        app.setVersionCode(packageInfo.versionCode)//获取应用版本号
-                        app.icon = packageInfo.applicationInfo.loadIcon(packageManager)//获取应用图标
+//                        app.icon = packageInfo.applicationInfo.loadIcon(packageManager)//获取应用图标
+                        val icon = packageInfo.applicationInfo.loadIcon(packageManager)//获取应用图标
                         list.add(app)
                     }
                 }

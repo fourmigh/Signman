@@ -9,7 +9,7 @@ import android.content.Context
 /**
  * Created by CaoJun on 2017/8/31.
  */
-@Database(entities = [App::class], version = 1, exportSchema = false)
+@Database(entities = [App::class], version = 2, exportSchema = false)
 @TypeConverters(DataConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -20,7 +20,8 @@ abstract class AppDatabase : RoomDatabase() {
 
         @JvmStatic fun getDatabase(context: Context): AppDatabase {
             if (INSTANCE == null) {
-                INSTANCE = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "app_database").build()
+                INSTANCE = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "app_database")
+                        .fallbackToDestructiveMigration().build()
             }
             return INSTANCE!!
         }

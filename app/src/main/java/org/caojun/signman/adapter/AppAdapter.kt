@@ -17,6 +17,7 @@ import org.caojun.signman.utils.ActivityUtils
 import org.caojun.utils.TimeUtils
 import org.jetbrains.anko.doAsync
 
+
 /**
  * Created by CaoJun on 2017/8/31.
  */
@@ -42,12 +43,16 @@ class AppAdapter(context: MainActivity, list: ArrayList<App>, private var listen
         val icon_padding: Int = context?.resources?.getDimension(R.dimen.app_icon_padding)?.toInt()?:10
 
         val app = getItem(position)
-        app.icon?.setBounds(0, 0, icon_size, icon_size)
+//        app.icon?.setBounds(0, 0, icon_size, icon_size)
+        val packageInfo = context.packageManager.getPackageInfo(app.packageName, 0)
+        val icon = packageInfo.applicationInfo.loadIcon(context.packageManager)
+        icon.setBounds(0, 0, icon_size, icon_size)
 
         holder.tvName?.text = app.name
         holder.tvName?.compoundDrawablePadding = icon_padding
         holder.tvName?.gravity = Gravity.CENTER_VERTICAL
-        holder.tvName?.setCompoundDrawables(app.icon, null, null, null)
+//        holder.tvName?.setCompoundDrawables(app.icon, null, null, null)
+        holder.tvName?.setCompoundDrawables(icon, null, null, null)
 
         holder.tbSign?.isChecked = app.isSigned
         if (app.isSigned) {

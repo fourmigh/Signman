@@ -13,9 +13,9 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter
 /**
  * Created by CaoJun on 2017/9/4.
  */
-open class BaseAdapter(context: Context, list: ArrayList<App>) : android.widget.BaseAdapter(), StickyListHeadersAdapter {
+open class BaseAdapter(val context: Context, list: ArrayList<App>) : android.widget.BaseAdapter(), StickyListHeadersAdapter {
 
-    protected var context: Context? = context
+//    protected var context: Context = context
     private val list: ArrayList<App> = ArrayList()
 
     init {

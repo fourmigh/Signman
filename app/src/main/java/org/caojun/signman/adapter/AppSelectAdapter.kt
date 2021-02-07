@@ -43,19 +43,23 @@ class AppSelectAdapter(context: Context, list: ArrayList<App>) : BaseAdapter(con
         val icon_padding: Int = context?.resources?.getDimension(R.dimen.app_icon_padding)?.toInt()?:10
 
         val app = getItem(position)
-        app.icon?.setBounds(0, 0, icon_size, icon_size)
+//        app.icon?.setBounds(0, 0, icon_size, icon_size)
+        val packageInfo = context.packageManager.getPackageInfo(app.packageName, 0)
+        val icon = packageInfo.applicationInfo.loadIcon(context.packageManager)
+        icon.setBounds(0, 0, icon_size, icon_size)
 
         holder.ctvName?.isChecked = app.isSelected
         holder.ctvName?.text = app.name
         holder.ctvName?.compoundDrawablePadding = icon_padding
         holder.ctvName?.gravity = Gravity.CENTER_VERTICAL
-        holder.ctvName?.setCompoundDrawables(app.icon, null, null, null)
+//        holder.ctvName?.setCompoundDrawables(app.icon, null, null, null)
+        holder.ctvName?.setCompoundDrawables(icon, null, null, null)
         holder.ctvName?.setOnClickListener {
             holder.ctvName?.toggle()
             app.isSelected = holder.ctvName?.isChecked!!
             if (!app.isSelected) {
                 doAsync {
-                    AppDatabase.getDatabase(context!!).getAppDao().delete(app)
+                    AppDatabase.getDatabase(context).getAppDao().delete(app)
                 }
             }
         }
