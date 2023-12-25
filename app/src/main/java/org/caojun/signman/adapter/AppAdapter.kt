@@ -13,10 +13,9 @@ import org.caojun.signman.activity.MainActivity
 import org.caojun.signman.listener.OnSignListener
 import org.caojun.signman.room.App
 import org.caojun.signman.room.AppDatabase
-import org.caojun.signman.utils.ActivityUtils
+import org.caojun.utils.ActivityUtils
 import org.caojun.utils.TimeUtils
 import org.jetbrains.anko.doAsync
-
 
 /**
  * Created by CaoJun on 2017/8/31.
@@ -73,7 +72,7 @@ class AppAdapter(context: MainActivity, list: ArrayList<App>, private var listen
 
         holder.btnSign?.setOnClickListener {
             //启动应用
-            if (!ActivityUtils.startActivity(context!!, app.packageName!!)) {
+            if (!ActivityUtils.startActivity(context, app.packageName)) {
                 activity?.doUninstalledAlert(app)
                 return@setOnClickListener
             }
@@ -82,7 +81,7 @@ class AppAdapter(context: MainActivity, list: ArrayList<App>, private var listen
             app.addTime()
             app.isSigned = true
             doAsync {
-                AppDatabase.getDatabase(context!!).getAppDao().update(app)
+                AppDatabase.getDatabase(context).getAppDao().update(app)
             }
             listener?.onSignChange()
         }
@@ -98,7 +97,7 @@ class AppAdapter(context: MainActivity, list: ArrayList<App>, private var listen
                     app.addTime()
                 }
                 doAsync {
-                    AppDatabase.getDatabase(context!!).getAppDao().update(app)
+                    AppDatabase.getDatabase(context).getAppDao().update(app)
                 }
                 listener?.onSignChange()
             }

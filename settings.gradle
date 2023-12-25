@@ -1,7 +1,7 @@
 include ':app'
 
-include ':UtilsLibrary'
-project(':UtilsLibrary').projectDir = new File(settingsDir, '../CaojunLibrary/UtilsLibrary')
+include ':utils'
+project(':utils').projectDir = new File(settingsDir, '../CaojunLibrariesX/utils')
 
-include ':WidgetLibrary'
-project(':WidgetLibrary').projectDir = new File(settingsDir, '../CaojunLibrary/WidgetLibrary')
+include ':widget'
+project(':widget').projectDir = new File(settingsDir, '../CaojunLibrariesX/widget')

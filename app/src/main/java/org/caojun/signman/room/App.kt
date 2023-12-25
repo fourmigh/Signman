@@ -1,11 +1,10 @@
 package org.caojun.signman.room
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Ignore
-import android.arch.persistence.room.PrimaryKey
-import android.graphics.drawable.Drawable
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import com.luhuiguo.chinese.pinyin.Pinyin
 import com.luhuiguo.chinese.pinyin.PinyinFormat
 import java.util.Date
@@ -78,8 +77,8 @@ class App : Parcelable {
     constructor()
 
     constructor(_in: Parcel): this() {
-        packageName = _in.readString()
-        val times = _in.readString()
+        packageName = _in.readString() ?: ""
+        val times = _in.readString() ?: ""
         name = _in.readString()
 //        val size = _in.readInt()
 //        val icons = ByteArray(size)

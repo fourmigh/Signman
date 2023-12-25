@@ -1,8 +1,8 @@
 package org.caojun.signman.room
 
-import android.arch.persistence.room.TypeConverter
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
+import androidx.room.TypeConverter
 import org.caojun.signman.utils.DrawableUtils
 import java.util.Date
 import kotlin.collections.ArrayList

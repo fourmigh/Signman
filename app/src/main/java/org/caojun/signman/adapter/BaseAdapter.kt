@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckedTextView
 import android.widget.TextView
 import org.caojun.signman.R
 import org.caojun.signman.room.App

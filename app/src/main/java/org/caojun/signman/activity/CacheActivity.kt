@@ -1,16 +1,13 @@
 package org.caojun.signman.activity
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import org.caojun.signman.R
-import android.app.Activity
 import android.content.pm.ApplicationInfo
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import org.caojun.signman.Constant
 import org.caojun.signman.adapter.CacheAdapter
 import org.caojun.signman.room.App
-import org.caojun.signman.room.AppDatabase
 import org.caojun.signman.utils.AppSortComparator
 import org.caojun.signman.utils.CacheUtils
 import org.jetbrains.anko.doAsync

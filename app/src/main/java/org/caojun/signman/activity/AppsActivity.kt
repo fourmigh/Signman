@@ -1,13 +1,14 @@
 package org.caojun.signman.activity
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import org.caojun.signman.R
 import android.app.Activity
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.caojun.signman.Constant
 import org.caojun.signman.adapter.AppSelectAdapter
@@ -65,7 +66,7 @@ class AppsActivity : AppCompatActivity() {
         doAsync {
             if (list.isEmpty()) {
 
-                val packages = packageManager.getInstalledPackages(0)
+                val packages = packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
                 for (i in packages.indices) {
                     val packageInfo = packages[i]
                     if ((packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0) { //非系统应用

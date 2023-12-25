@@ -5,11 +5,9 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckedTextView
 import android.widget.TextView
 import org.caojun.signman.R
 import org.caojun.signman.room.App
-import org.caojun.signman.room.AppDatabase
 import org.caojun.signman.utils.CacheUtils
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread

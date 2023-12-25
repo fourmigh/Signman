@@ -3,11 +3,12 @@ package org.caojun.signman.activity
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import com.socks.library.KLog
 import kotlinx.android.synthetic.main.activity_main.*
 import org.caojun.signman.Constant
 import org.caojun.signman.R
@@ -15,8 +16,8 @@ import org.caojun.signman.adapter.AppAdapter
 import org.caojun.signman.listener.OnSignListener
 import org.caojun.signman.room.App
 import org.caojun.signman.room.AppDatabase
-import org.caojun.signman.utils.ActivityUtils
 import org.caojun.signman.utils.AppSortComparator
+import org.caojun.utils.ActivityUtils
 import org.caojun.utils.TimeUtils
 import org.jetbrains.anko.*
 import java.util.Collections
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         val time = app?.time!!
         val size = time.size
         val strings = arrayOfNulls<String>(size)
-        for (i in 0..(size - 1)) {
+        for (i in 0 until size) {
             strings[i] = TimeUtils.getTime("yyyy-MM-dd HH:mm:ss", time[i].time)
         }
         AlertDialog.Builder(this)
@@ -79,13 +80,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadApps() {
         doAsync {
-            val apps = try {
+            val list = try {
                 AppDatabase.getDatabase(baseContext).getAppDao().queryAll()
             } catch (e: Exception) {
                 null
             }
+            val apps = if (list == null) ArrayList() else ArrayList(list)
+            for (i in apps.size - 1 downTo 0) {
+                val app = apps[i]
+                try {
+                    packageManager.getPackageInfo(app.packageName, 0)
+                } catch (e: Exception) {
+                    apps.removeAt(i)
+                }
+            }
             uiThread {
-                if (apps?.isNotEmpty() == true) {
+                if (apps.isNotEmpty()) {
                     Constant.Apps.clear()
                     Collections.sort(apps, AppSortComparator())
                     Constant.Apps.addAll(apps)
